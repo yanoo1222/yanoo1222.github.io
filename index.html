@@ -3,36 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>quest 3 ionstack conf archives</title>
+    <title>ionstack config archive</title>
 </head>
 <body>
 
-<div class="archive-card">
-    <div class="archive-header">
-        <h1>Quest 3 Firmware Archive</h1>
-    </div>
+<h1>Quest 3 ionstack conf Archive</h1>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Incremental</th>
-                    <th>Version</th>
-                    <th style="text-align: right; padding-right: 0.2rem;">download</th>
-                </tr>
-            </thead>
-            <tbody id="firmwareBody">
-            </tbody>
-        </table>
-    </div>
+<table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th>Incremental</th>
+            <th>Version</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody id="firmwareBody">
+    </tbody>
+</table>
 
-    <div class="footer-note">
-        <span class="count" id="entryCount">15 entries</span>
-    </div>
-</div>
+<p id="entryCount">15 entries</p>
 
 <script>
     (function() {
+        // enetries
         const entries = [
             { incremental: "52345320027600520", version: "206.0.0.101.1332.1018412879" },
             { incremental: "52345320026300520", version: "206.0.0.95.1332.1016953866" },
@@ -51,6 +44,7 @@
             { incremental: "52168470039400520", version: "204.0.0.144.1183.979667119" }
         ];
 
+        // the funsion to download your increamtal
         function downloadConfig(incremental) {
             const item = entries.find(e => e.incremental === incremental);
             if (!item) return false;
@@ -75,20 +69,16 @@
             a.click();
             document.body.removeChild(a);
 
-            setTimeout(function() {
-                URL.revokeObjectURL(url);
-            }, 250);
-
+            setTimeout(() => URL.revokeObjectURL(url), 250);
             return true;
         }
-        // trys to find the ionstack conf based on the incremetal ur trying to download 
+
         const path = window.location.pathname;
         const match = path.match(/\/(\d+)\/ionstack\.conf$/);
         if (match) {
             const incremental = match[1];
-            const found = downloadConfig(incremental);
-            if (found) {
-                document.body.innerHTML = '<div style="text-align:center;padding:4rem;font-family:sans-serif;"><h2>Downloading ionstack.conf...</h2><p>Incremental: ' + incremental + '</p><p><a href="/">Return to archive</a></p></div>';
+            if (downloadConfig(incremental)) {
+                document.body.innerHTML = `<h2>Downloading ionstack.conf for ${incremental}...</h2><p><a href="/">Return to archive</a></p>`;
                 return;
             }
         }
@@ -98,46 +88,30 @@
 
         const fragment = document.createDocumentFragment();
 
-        entries.forEach(function(item) {
+        entries.forEach(item => {
             const tr = document.createElement('tr');
 
             const tdInc = document.createElement('td');
-            tdInc.className = 'col-incremental';
             tdInc.textContent = item.incremental;
 
             const tdVer = document.createElement('td');
-            tdVer.className = 'col-version';
             tdVer.textContent = item.version;
 
-            // update badge
             const tdAction = document.createElement('td');
-            tdAction.style.textAlign = 'right';
-            tdAction.style.paddingRight = '0.2rem';
-            tdAction.innerHTML = '<span class="download-badge">conf</span>';
+            const link = document.createElement('a');
+            link.href = `/${item.incremental}/ionstack.conf`;
+            link.textContent = 'download';
+            tdAction.appendChild(link);
 
             tr.appendChild(tdInc);
             tr.appendChild(tdVer);
             tr.appendChild(tdAction);
-
-            tr.addEventListener('click', function() {
-                downloadConfig(item.incremental);
-                
-                tr.style.backgroundColor = '#dbeafe';
-                setTimeout(function() {
-                    tr.style.backgroundColor = '';
-                }, 150);
-            });
-
             fragment.appendChild(tr);
         });
 
         tbody.appendChild(fragment);
-        // update the entry count 
-        const countEl = document.getElementById('entryCount');
-        if (countEl) {
-            countEl.textContent = entries.length + ' entries';
-        }
 
+        document.getElementById('entryCount').textContent = entries.length + ' entries';
     })();
 </script>
 
