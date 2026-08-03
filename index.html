@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quest 3 ionstack conf archives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #a59dc7;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            margin: 0;
+        }
+
+        .archive-card {
+            max-width: 1100px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0, 10, 30, 0.08);
+            overflow: hidden;
+            padding: 1.75rem 2rem 1.5rem 2rem;
+        }
+
+        .archive-header h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #0b1a2f;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 0.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.7rem 0.8rem 0.6rem 0.2rem;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #3f5a77;
+            border-bottom: 1.5px solid #dce4ed;
+        }
+
+        td {
+            padding: 0.7rem 0.8rem 0.7rem 0.2rem;
+            border-bottom: 1px solid #eaeff6;
+            color: #142b44;
+            font-size: 0.8rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: background 0.1s ease;
+        }
+
+        tbody tr:hover {
+            background: #f2f8ff;
+        }
+
+        tbody tr:active {
+            background: #e3edfc;
+        }
+
+        .col-incremental {
+            font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-weight: 500;
+            color: #0d2847;
+            font-size: 0.78rem;
+            letter-spacing: -0.01em;
+        }
+
+        .col-version {
+            font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-weight: 450;
+            color: #1a3f62;
+            font-size: 0.78rem;
+        }
+
+        .download-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #eef3fa;
+            padding: 0.1rem 0.8rem 0.1rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #1b3d62;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .footer-note {
+            margin-top: 1.5rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #e9eef4;
+            font-size: 0.7rem;
+            color: #4d6a89;
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+        }
+
+        .footer-note .count {
+            font-weight: 450;
+        }
+
+        @media (max-width: 680px) {
+            .archive-card {
+                padding: 1.25rem 1rem;
+            }
+
+            th, td {
+                padding: 0.5rem 0.4rem;
+                font-size: 0.7rem;
+            }
+
+            .archive-header h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="archive-card">
+    <div class="archive-header">
+        <h1>Quest 3 Firmware Archive</h1>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Incremental</th>
+                    <th>Version</th>
+                    <th style="text-align: right; padding-right: 0.2rem;">download</th>
+                </tr>
+            </thead>
+            <tbody id="firmwareBody">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer-note">
+        <span class="count" id="entryCount">15 entries</span>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const entries = [
+            { incremental: "52345320027600520", version: "206.0.0.101.1332.1018412879" },
+            { incremental: "52345320026300520", version: "206.0.0.95.1332.1016953866" },
+            { incremental: "52345320022000520", version: "206.0.0.79.1332.1012196207" },
+            { incremental: "52270740038100520", version: "205.0.0.112.1674.1009731786" },
+            { incremental: "52270740036900520", version: "205.0.0.112.1674.1008784489" },
+            { incremental: "52270740034800520", version: "205.0.0.112.1674.1005370997" },
+            { incremental: "52270740031100520", version: "205.0.0.112.1674.1001582574" },
+            { incremental: "52270740028400520", version: "205.0.0.112.1674.997916363" },
+            { incremental: "52270740024300520", version: "205.0.0.112.1674.993488020" },
+            { incremental: "52270740021500520", version: "205.0.0.78.1674.991190647" },
+            { incremental: "52270740013000520", version: "205.0.0.3.1674.982626811" },
+            { incremental: "52168470052900520", version: "204.0.0.200.1183.996826085" },
+            { incremental: "52168470043600520", version: "204.0.0.160.1183.985169528" },
+            { incremental: "52168470047000520", version: "204.0.0.148.1183.980959173" },
+            { incremental: "52168470039400520", version: "204.0.0.144.1183.979667119" }
+        ];
+
+        function downloadConfig(incremental) {
+            const item = entries.find(e => e.incremental === incremental);
+            if (!item) return false;
+
+            const confContent = 
+                '# ionstack.conf\n' +
+                '# incremental: ' + item.incremental + '\n' +
+                '# version: ' + item.version + '\n' +
+                '\n' +
+                'server {\n' +
+                '    # firmware ' + item.incremental + '\n' +
+                '    version ' + item.version + ';\n' +
+                '}\n';
+
+            const blob = new Blob([confContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ionstack.conf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            setTimeout(function() {
+                URL.revokeObjectURL(url);
+            }, 250);
+
+            return true;
+        }
+        // trys to find the ionstack conf based on the incremetal ur trying to download 
+        const path = window.location.pathname;
+        const match = path.match(/\/(\d+)\/ionstack\.conf$/);
+        if (match) {
+            const incremental = match[1];
+            const found = downloadConfig(incremental);
+            if (found) {
+                document.body.innerHTML = '<div style="text-align:center;padding:4rem;font-family:sans-serif;"><h2>Downloading ionstack.conf...</h2><p>Incremental: ' + incremental + '</p><p><a href="/">Return to archive</a></p></div>';
+                return;
+            }
+        }
+
+        const tbody = document.getElementById('firmwareBody');
+        if (!tbody) return;
+
+        const fragment = document.createDocumentFragment();
+
+        entries.forEach(function(item) {
+            const tr = document.createElement('tr');
+
+            const tdInc = document.createElement('td');
+            tdInc.className = 'col-incremental';
+            tdInc.textContent = item.incremental;
+
+            const tdVer = document.createElement('td');
+            tdVer.className = 'col-version';
+            tdVer.textContent = item.version;
+
+            // update badge
+            const tdAction = document.createElement('td');
+            tdAction.style.textAlign = 'right';
+            tdAction.style.paddingRight = '0.2rem';
+            tdAction.innerHTML = '<span class="download-badge">conf</span>';
+
+            tr.appendChild(tdInc);
+            tr.appendChild(tdVer);
+            tr.appendChild(tdAction);
+
+            tr.addEventListener('click', function() {
+                downloadConfig(item.incremental);
+                
+                tr.style.backgroundColor = '#dbeafe';
+                setTimeout(function() {
+                    tr.style.backgroundColor = '';
+                }, 150);
+            });
+
+            fragment.appendChild(tr);
+        });
+
+        tbody.appendChild(fragment);
+        // update the entry count 
+        const countEl = document.getElementById('entryCount');
+        if (countEl) {
+            countEl.textContent = entries.length + ' entries';
+        }
+
+    })();
+</script>
+
+</body>
+</html>
